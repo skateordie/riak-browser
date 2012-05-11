@@ -41,8 +41,11 @@
     $("#tabs-"+tab_id).empty();
     $.getJSON('/riak/'+ bucket +'?props=false&keys=true',function(json){
           $("#tabs-"+tab_id).append('<table id="keys-'+tab_id+'">');
+          bucket = encodeURIComponent(bucket);
           $.each(json.keys,function(j,json2){
-            $('#keys-'+tab_id).append('<tr id='+bucket+json.keys[j]+'><td><a target=\"_blank\" href="/riak/'+ bucket + '/' + json.keys[j] + '">'+ json.keys[j] + '</a></td><td><a href="javascript:deleteKey(\''+ bucket +'\',\''+json.keys[j]+'\')"><span style="display: inline-block;" class="ui-icon ui-icon-close"/></a></td></tr>');
+            var key = json.keys[j];
+            var eKey = encodeURIComponent(key);
+            $('#keys-'+tab_id).append('<tr id='+bucket+json.keys[j]+'><td><a target=\"_blank\" href="/riak/'+ bucket + '/' + eKey + '">'+ key + '</a></td><td><a href="javascript:deleteKey(\''+ bucket +'\',\''+eKey+'\')"><span style="display: inline-block;" class="ui-icon ui-icon-close"/></a></td></tr>');
           });
           $("#tabs-"+tab_id).append("</table>");
         });
